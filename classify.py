@@ -11,12 +11,7 @@ from os import walk
 # Classifica a imagem por tags enviando pelo tagbox e recebendo as tags
 def classify_file(filename, file):
     response = requests.post('http://localhost:8080/tagbox/check', files={'file': (filename, file)})
-    try:
-        body = json.loads(response.content)
-    except:
-        print(filename)
-        raise "ata"
-    print(body["tags"])
+    body = json.loads(response.content)
     return body['success'], body['tags']
 
 # Modifica o exif das imagens para incluir as tags
@@ -65,7 +60,7 @@ else:
     for filename in files:        
         actual += 1
         print("[" + str(actual) + " / " + str(total) + "] " + filename)
-        
+
         if not filename.endswith(".jpg") and not filename.endswith(".jpeg"):
             continue
 
